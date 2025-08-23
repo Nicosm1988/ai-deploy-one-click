@@ -1,0 +1,36 @@
+{
+  "name": "@cle-does-things/ai-deploy-one-click",
+  "version": "0.1.0",
+  "description": "CLI command to deploy your AI chatbot in one click on Vercel.",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "golang-npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AstraBert/ai-deploy-one-click.git"
+  },
+  "keywords": [
+    "cli",
+    "ai",
+    "deploy",
+    "one-click",
+    "automation",
+    "vercel"
+  ],
+  "author": "Clelia Astra Bertelli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AstraBert/ai-deploy-one-click/issues"
+  },
+  "homepage": "https://github.com/AstraBert/ai-deploy-one-click#readme",
+  "dependencies": {
+    "golang-npm": "^0.0.6"
+  },
+  "goBinary": {
+    "name": "ai-deploy-one-click",
+    "path": "./bin",
+    "url": "https://github.com/AstraBert/ai-deploy-one-click/releases/download/v{{version}}/ai-deploy-one-click_{{version}}_{{platform}}_{{arch}}.tar.gz"
+  }
+}

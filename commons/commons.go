@@ -1,6 +1,21 @@
 package commons
 
-import "strings"
+import (
+	"os"
+	"strings"
+)
+
+const TemplateString string = `import type { AIModelKey } from './ai-models';
+
+export const appConfig: {
+    name: string;
+    shortDescription: string;
+    extendedDescription: string;
+    aiModel: AIModelKey;
+    systemPrompt: string;
+    appUrl: string;
+    gitHubSource: string;
+} =`
 
 type AppConfigInterface interface {
 	SetAppName(string)
@@ -61,4 +76,49 @@ func (a *AppConfig) SetAppApiKey(text string) {
 
 func (a *AppConfig) SetAppSystemPrompt(text string) {
 	a.AppSystemPrompt = text
+}
+
+type FileInterface interface {
+	WriteContent() error
+	ReadContent() ([]byte, error)
+	CopyContent(string) error
+}
+
+type File struct {
+	Path    string
+	Content string
+}
+
+func (f *File) WriteContent() error {
+	return os.WriteFile(f.Path, []byte(f.Content), 0777)
+}
+
+func (f *File) ReadContent() ([]byte, error) {
+	content, err := os.ReadFile(f.Path)
+	if err != nil {
+		return nil, err
+	} else {
+		return content, nil
+	}
+}
+
+func (f *File) CopyContent(filePath string) error {
+	content, err := f.ReadContent()
+	if err != nil {
+		return err
+	} else {
+		fl := NewFile(filePath, string(content))
+		errFl := fl.WriteContent()
+		if errFl != nil {
+			return errFl
+		}
+		return nil
+	}
+}
+
+func NewFile(path, content string) *File {
+	return &File{
+		Path:    path,
+		Content: content,
+	}
 }

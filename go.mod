@@ -2,7 +2,10 @@ module github.com/AstraBert/ai-deploy-one-click
 
 go 1.24.5
 
-require github.com/rivo/tview v0.0.0-20250625164341-a4a78f1e05cb
+require (
+	github.com/rivo/tview v0.0.0-20250625164341-a4a78f1e05cb
+	github.com/rvfet/rich-go v0.0.0-20240930071213-51f43e596c0d
+)
 
 require (
 	github.com/gdamore/encoding v1.0.1 // indirect
