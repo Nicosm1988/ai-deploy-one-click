@@ -31,7 +31,7 @@ npm install @cle-does-things/ai-deploy-one-click
 3. Downloading the executable from the [releases page](https://github.com/AstraBert/ai-deploy-one-click/releases): you can download it directly from the GitHub repository or, if you do not want to leave your terminal, you can use `curl`:
 
 ```bash
-curl -L -o anydocs https://github.com/AstraBert/ai-deploy-one-click/releases/download/<version>/ai-deploy-one-click_<version>_<OS>_<processor>.tar.gz ## e.g. https://github.com/AstraBert/ai-deploy-one-click/releases/download/0.1.1/ai-deploy-one-click_0.1.1_darwin_amd64.tar.gz
+curl -L -o ai-deploy-one-click https://github.com/AstraBert/ai-deploy-one-click/releases/download/<version>/ai-deploy-one-click_<version>_<OS>_<processor>.tar.gz ## e.g. https://github.com/AstraBert/ai-deploy-one-click/releases/download/0.1.1/ai-deploy-one-click_0.1.1_darwin_amd64.tar.gz
 
 # make sure the downloaded binary is executable (not needed for Windows)
 chmod +x ai-deploy-one-click
