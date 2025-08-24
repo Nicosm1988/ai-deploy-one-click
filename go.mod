@@ -1,6 +1,6 @@
 module github.com/AstraBert/ai-deploy-one-click
 
-go 1.24.5
+go 1.23
 
 require (
 	github.com/rivo/tview v0.0.0-20250625164341-a4a78f1e05cb

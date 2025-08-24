@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"path"
+	"strings"
 
 	"github.com/AstraBert/ai-deploy-one-click/commons"
 	"github.com/AstraBert/ai-deploy-one-click/shell"
@@ -53,6 +54,8 @@ func main() {
 					fl.WriteContent()
 					dotEnv := commons.NewFile(".env", envVar)
 					dotEnv.WriteContent()
+					dotEnvValue := commons.NewFile(".env.value", strings.Split(envVar, "=")[1])
+					dotEnvValue.WriteContent()
 					ghSucc, ghErr := shellops.CreateGhRepo(config, sh)
 					if ghErr != nil {
 						rich.Error(ghSucc)
@@ -66,10 +69,13 @@ func main() {
 					}
 					rich.Info(confCopy)
 					_, envCopyErr := shellops.CopyConfigFile(dotEnv, path.Base(config.AppGitHubSource)+"/.env")
-					if envCopyErr != nil {
+					_, envValueCopyErr := shellops.CopyConfigFile(dotEnvValue, path.Base(config.AppGitHubSource)+"/.env.value")
+					if envCopyErr != nil || envValueCopyErr != nil {
 						rich.Error("There was an error copying your environment variable to a .env file, skipping...")
+					} else {
+						rich.Info("Successfully copied environment variable to your project (see .env and .env.value)")
 					}
-					vercConn, vercConnErr := shellops.VercelConnectGit(config, sh)
+					vercConn, vercConnErr := shellops.VercelConnectGit(config, envVar, sh)
 					if vercConnErr != nil {
 						rich.Error(vercConn)
 						return

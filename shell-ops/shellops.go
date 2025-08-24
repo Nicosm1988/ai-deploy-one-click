@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"path"
+	"strings"
 
 	"github.com/AstraBert/ai-deploy-one-click/commons"
 	"github.com/AstraBert/ai-deploy-one-click/shell"
@@ -14,15 +15,12 @@ const RepoTemplateURL string = "https://github.com/AstraBert/ai-deploy-one-click
 func SanityCheck(sh *shell.Shell) (string, error) {
 	_, errVer := sh.Execute("vercel --help")
 	_, errGh := sh.Execute("gh --help")
+	_, errGit := sh.Execute("git --help")
 	switch {
-	case errVer != nil && errGh != nil:
-		return "You should install and log-in to Vercel CLI (vercel) and GitHub CLI (gh) before using ai-deploy-one-click!", errors.New("you should install and log-in to Vercel CLI (vercel) and GitHub CLI (gh) before using ai-deploy-one-click")
-	case errVer == nil && errGh != nil:
-		return "You should install GitHub CLI (gh) before using ai-deploy-one-click!", errors.New("you should install GitHub CLI (gh) before using ai-deploy-one-click")
-	case errVer != nil && errGh == nil:
-		return "You should install Vercel CLI (vercel) before using ai-deploy-one-click!", errors.New("you should install Vercel CLI (vercel) before using ai-deploy-one-click")
+	case errVer != nil || errGh != nil || errGit != nil:
+		return "You should install and log-in to Vercel CLI (vercel), GitHub CLI (gh) and Git (git) before using ai-deploy-one-click, but seems like you are missing at least one!", errors.New("you should install and log-in to Vercel CLI (vercel), GitHub CLI (gh) and Git (git) before using ai-deploy-one-click, but seems like you are missing at least one")
 	default:
-		return "Sanity check successfully passed!", nil
+		return "System check successfully passed: you have all the necessary software installed", nil
 	}
 }
 
@@ -46,9 +44,9 @@ func CopyConfigFile(configFile *commons.File, destinationFile string) (string, e
 	}
 }
 
-func VercelConnectGit(config commons.AppConfig, sh *shell.Shell) (string, error) {
+func VercelConnectGit(config commons.AppConfig, envVar string, sh *shell.Shell) (string, error) {
 	pathDir := path.Base(config.AppGitHubSource)
-	_, err := sh.Execute("cd " + pathDir + " && vercel git connect --yes && git add . && git commit -m 'feat: automatic first commit from ai-deploy-one-click' && git push origin main")
+	_, err := sh.Execute("cd " + pathDir + " && vercel git connect --yes && vercel env add " + strings.Split(envVar, "=")[0] + " production < .env.value && git add . && git commit -m 'feat: automatic first commit from ai-deploy-one-click' && git push origin main")
 	if err != nil {
 		return "An error occurred while connecting your repository to Vercel: " + err.Error(), err
 	} else {
