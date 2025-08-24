@@ -1,6 +1,6 @@
 {
   "name": "@cle-does-things/ai-deploy-one-click",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "CLI command to deploy your AI chatbot in one click on Vercel.",
   "main": "index.js",
   "scripts": {
