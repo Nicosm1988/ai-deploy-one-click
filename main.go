@@ -9,6 +9,7 @@ import (
 	"github.com/AstraBert/ai-deploy-one-click/commons"
 	"github.com/AstraBert/ai-deploy-one-click/shell"
 	shellops "github.com/AstraBert/ai-deploy-one-click/shell-ops"
+	"github.com/common-nighthawk/go-figure"
 	"github.com/rivo/tview"
 	"github.com/rvfet/rich-go"
 )
@@ -19,6 +20,12 @@ var configMap map[string]any
 var envVar string
 
 func main() {
+	logo := figure.NewColorFigure("ai-deploy", "larry3d", "yellow", true)
+	logo1 := figure.NewColorFigure("one-click", "larry3d", "yellow", true)
+	logo.Print()
+	logo1.Print()
+	fmt.Println()
+	fmt.Println()
 	sh := shell.DefaultShell()
 	checked, err := shellops.SanityCheck(sh)
 	if err != nil {
